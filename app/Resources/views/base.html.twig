@@ -3,11 +3,20 @@
     <head>
         <meta charset="UTF-8" />
         <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        
+        {% block stylesheets %}
+			<link rel="stylesheet" href="{{ asset('bundles/bootstrap/css/bootstrap.min.css') }}" />
+			<link rel="stylesheet" href="{{ asset('bundles/font-awesome/css/font-awesome.min.css') }}" />
+		{% endblock %}
+
+		{% block javascripts %}
+			<script type="text/javascript" src="{{ asset('bundles/jquery/jquery.min.js') }}"></script>
+			<script type="text/javascript" src="{{ asset('bundles/bootstrap/js/bootstrap.min.js') }}"></script>
+		{% endblock %}
+
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
     </body>
 </html>

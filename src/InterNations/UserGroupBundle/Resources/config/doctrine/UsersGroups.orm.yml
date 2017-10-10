@@ -1,0 +1,23 @@
+InterNations\UserGroupBundle\Entity\UsersGroups:
+    type: entity
+    table: UsersGroups
+    id:
+        userid:
+            type: integer
+            nullable: false
+            id: true
+            length: 30
+            column: UserId
+        groupid:
+            type: integer
+            nullable: false
+            id: true
+            length: 30
+            column: GroupId
+    # manyToOne:
+    #   users:
+    #     targetEntity: Users
+    #     inversedBy: userid
+    #   groups:
+    #     targetEntity: Groups
+    #     inversedBy: groupid

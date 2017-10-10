@@ -1,0 +1,87 @@
+InterNations\UserGroupBundle\Entity\Users:
+    type: entity
+    table: Users
+    uniqueConstraints:
+        username:
+            columns:
+                - username
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            column: Id
+            generator:
+                strategy: IDENTITY
+    fields:
+        username:
+            type: string
+            nullable: false
+            length: 30
+            options:
+                fixed: false
+        password:
+            type: string
+            nullable: false
+            length: 100
+            options:
+                fixed: false
+        firstname:
+            type: string
+            nullable: false
+            length: 30
+            options:
+                fixed: false
+            column: FirstName
+        lastname:
+            type: string
+            nullable: false
+            length: 30
+            options:
+                fixed: false
+            column: LastName
+        email:
+            type: string
+            nullable: true
+            length: 60
+            options:
+                fixed: false
+            column: Email
+    manyToMany:
+        groupid:
+            targetEntity: Groups
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: userid
+            joinTable:
+                name: UsersGroups
+                joinColumns:
+                    -
+                        name: UserId
+                        referencedColumnName: Id
+                inverseJoinColumns:
+                    -
+                        name: GroupId
+                        referencedColumnName: Id
+            orderBy: null
+        roleid:
+            targetEntity: Roles
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: userid
+            joinTable:
+                name: UsersRoles
+                joinColumns:
+                    -
+                        name: UserId
+                        referencedColumnName: Id
+                inverseJoinColumns:
+                    -
+                        name: RoleId
+                        referencedColumnName: id
+            orderBy: null
+    lifecycleCallbacks: {  }

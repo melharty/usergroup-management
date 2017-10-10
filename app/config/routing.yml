@@ -1,8 +1,10 @@
 user_group:
     resource: "@UserGroupBundle/Resources/config/routing.yml"
-    prefix:   /Users
+    prefix:   /admin
 
 app:
     resource: '@AppBundle/Controller/'
     type: annotation
 
+logout:
+    path: /logout

@@ -1,1 +1,15 @@
-Hello World!
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>User Group Manager</h1>
+
+
+    <ul>
+        <li>
+            <a href="{{ path('users_index') }}">User Manager</a>
+        </li>
+        <li>
+            <a href="{{ path('groups_index') }}">Group Manager</a>
+        </li>
+    </ul>
+{% endblock %}

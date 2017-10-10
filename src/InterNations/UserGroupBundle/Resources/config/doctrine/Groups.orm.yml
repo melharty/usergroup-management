@@ -1,0 +1,31 @@
+InterNations\UserGroupBundle\Entity\Groups:
+    type: entity
+    table: Groups
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            column: Id
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 30
+            options:
+                fixed: false
+            column: Name
+    manyToMany:
+        userid:
+            targetEntity: Users
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: groupid
+            inversedBy: null
+            joinTable: null
+            orderBy: null
+    lifecycleCallbacks: {  }

@@ -3,22 +3,54 @@
 security:
 
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
+    encoders:
+        InterNations\UserGroupBundle\Entity\Users:
+            algorithm: md5
+            encode_as_base64: false
+            iterations: 0
     providers:
-        in_memory:
-            memory: ~
+        our_db_provider:
+            entity:
+                class: UserGroupBundle:Users
+                property: username
 
+    # firewalls:
+    #     # disables authentication for assets and the profiler, adapt it according to your needs
+    #     dev:
+    #         pattern: ^/(_(profiler|wdt)|css|images|js)/
+    #         security: false
+
+    #     main:
+    #         anonymous: ~
+    #         # activate different ways to authenticate
+
+    #         # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+    #         #http_basic: ~
+
+    #         # https://symfony.com/doc/current/security/form_login_setup.html
+    #         #form_login: ~
     firewalls:
-        # disables authentication for assets and the profiler, adapt it according to your needs
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-
-        main:
-            anonymous: ~
+        secured_area:
+            pattern: ^/
+            anonymous: true
+            provider: our_db_provider
+            form_login:
+                login_path: login
+                check_path: login
+                # default_target_path: default_security_target
+                # always_use_default_target_path: true
+                use_referer: true
+                # csrf_token_generator: security.csrf.token_manager
+            logout:
+                path:   /logout
+                target: /
+            
             # activate different ways to authenticate
 
-            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
-            #http_basic: ~
+            # http_basic: ~
+            # http://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
 
-            # https://symfony.com/doc/current/security/form_login_setup.html
-            #form_login: ~
+            # form_login: ~
+            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
+    access_control:
+        - { path: '^Users/', roles: ROLE_USER }

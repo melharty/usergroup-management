@@ -1,0 +1,16 @@
+InterNations\UserGroupBundle\Entity\UsersRoles:
+    type: entity
+    table: UsersRoles
+    fields:
+        userid:
+            type: integer
+            nullable: false
+            id: true
+            length: 30
+            column: UserId
+        roleid:
+            type: integer
+            nullable: false
+            id: true
+            length: 30
+            column: RoleId
