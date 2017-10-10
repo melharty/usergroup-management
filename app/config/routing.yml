@@ -1,0 +1,8 @@
+user_group:
+    resource: "@UserGroupBundle/Resources/config/routing.yml"
+    prefix:   /Users
+
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation
+

@@ -1,0 +1,4 @@
+services:
+#    user_group.example:
+#        class: InterNations\UserGroupBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
