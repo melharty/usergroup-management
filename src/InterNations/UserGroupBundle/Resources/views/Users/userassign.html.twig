@@ -1,53 +1,56 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>User</h1>
+    <div class="main">
+        <div class="container">
+            <div class="page-header">
+                <h1>{{ user.firstname ~ " " ~ user.lastname }} Assignment</h1>
+                <hr>
+            </div>
 
-    <table>
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ user.id }}</td>
-            </tr>
-            <tr>
-                <th>Firstname</th>
-                <td>{{ user.firstname }}</td>
-            </tr>
-            <tr>
-                <th>Lastname</th>
-                <td>{{ user.lastname }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ user.email }}</td>
-            </tr>
-        </tbody>
-    </table>
+            <div class="row">
+                <div class="col-md-2 text-right font-weight-bold">Id</div>
+                <div class="col-md-10">{{ user.id }}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 text-right font-weight-bold">First Name</div>
+                <div class="col-md-10">{{ user.firstname }}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 text-right font-weight-bold">Last Name</div>
+                <div class="col-md-10">{{ user.lastname }}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 text-right font-weight-bold">Email</div>
+                <div class="col-md-10">{{ user.email }}</div>
+            </div>
 
-    <table>
-        <tbody>
-            <tr>
-                <th>Assign to </th>
-                <td>
-                	<form class="form" id="internations_usergroupbundle_users" name="internations_usergroupbundle_users" method="post">
-		            	<select form="internations_usergroupbundle_users" id="internations_usergroupbundle_users_usergroups" name="internations_usergroupbundle_users[usergroups][]" multiple class="form-control">
-		            		{% for group in groups %}
-		            			<option value="{{ group.id }}">{{ group.name }}</option>
-		        			{% endfor %}
-		            	</select>
+            <div class="row">
+                <div class="col-md-2 text-right font-weight-bold">Assign to</div>
+                <div class="col-md-10">
+                    <form class="form" id="internations_usergroupbundle_users" name="internations_usergroupbundle_users" method="post">
+                        <select form="internations_usergroupbundle_users" id="internations_usergroupbundle_users_usergroups" name="internations_usergroupbundle_users[usergroups][]" multiple class="form-control">
+                            {% for group in groups %}
+                                <option value="{{ group.id }}">{{ group.name }}</option>
+                            {% endfor %}
+                        </select>
                         <input type="submit" value="Save" />
-		            </form>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                    </form>
+                </div>
+            </div>
 
-    <ul>
-        <li>
-            <a href="{{ path('users_show', { 'id': user.id }) }}">Show user</a>
-        </li>
-        <li>
-            <a href="{{ path('users_edit', { 'id': user.id }) }}">Edit user</a>
-        </li>
-    </ul>
+            <div class="row">
+                <ul>
+                    <li>
+                        <a href="{{ path('users_show', { 'id': user.id }) }}">Show user</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('users_edit', { 'id': user.id }) }}">Edit user</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
 {% endblock %}

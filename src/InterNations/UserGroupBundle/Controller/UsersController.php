@@ -81,6 +81,8 @@ class UsersController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+        	$user->setPassword(md5($user->getPassword()));
+        	
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('users_index', array('id' => $user->getId()));

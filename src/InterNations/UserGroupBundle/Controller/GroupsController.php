@@ -87,6 +87,20 @@ class GroupsController extends Controller
      */
     public function editAction(Request $request, Groups $group)
     {
+    	$em = $this->getDoctrine()->getManager();
+
+    	// Fetch group id to search if any users are assigned
+    	$id = $group->getId();
+
+    	// Fetch if any users are assigned to group
+        $groupsQuery = $em->createQuery(
+            'SELECT q.userid FROM UserGroupBundle:UsersGroups q
+             WHERE q.groupid = :id
+            '
+        )->setParameter('id', $id);
+        
+        $groups = $groupsQuery->getResult();
+
         $deleteForm = $this->createDeleteForm($group);
         $editForm = $this->createForm('InterNations\UserGroupBundle\Form\GroupsType', $group);
         
@@ -98,11 +112,18 @@ class GroupsController extends Controller
             return $this->redirectToRoute('groups_index', array('id' => $group->getId()));
         }
 
-        return $this->render('@UserGroup/Groups/edit.html.twig', array(
-            'group' => $group,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
+        $returnArray = array(
+        	'group' => $group,
+            'edit_form' => $editForm->createView()
+        );
+
+        // var_dump(count($groups));exit;
+
+        if (count($groups) === 0) {
+        	$returnArray['delete_form'] = $deleteForm->createView();
+        }
+
+        return $this->render('@UserGroup/Groups/edit.html.twig', $returnArray);
     }
 
     /**
@@ -111,12 +132,31 @@ class GroupsController extends Controller
      */
     public function deleteAction(Request $request, Groups $group)
     {
+    	$em = $this->getDoctrine()->getManager();
+    	
         $form = $this->createDeleteForm($group);
         $form->handleRequest($request);
 
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($group);
-        $em->flush();
+        // Fetch Group Id to prevent deletion if any users are assigned
+        $id = $group->getId();
+
+        // Lookup the UsersGroups table for any existing users
+        $groupsQuery = $em->createQuery(
+            'SELECT q.userid FROM UserGroupBundle:UsersGroups q
+             WHERE q.groupid = :id
+            '
+        )->setParameter('id', $id);
+        
+        $groups = $groupsQuery->getResult();
+
+        if (count($groups) > 0) {
+        	// Raise error to the form
+        	throw $this->createAccessDeniedException('You cannot access this page!');
+        } else {
+        	$em = $this->getDoctrine()->getManager();
+	        $em->remove($group);
+	        $em->flush();
+        }
 
         return $this->redirectToRoute('groups_index');
     }

@@ -1,54 +1,59 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>User</h1>
+    <div class="main">
+        <div class="container">
+        	<div class="page-header">
+                <h1>{{ user.firstname ~ " " ~ user.lastname }}</h1>
+                <hr>
+            </div>
+            <div class="row">
+                <div class="col-md-2 text-right font-weight-bold">Id</div>
+                <div class="col-md-10">{{ user.id }}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 text-right font-weight-bold">Username</div>
+                <div class="col-md-10">{{ user.username }}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 text-right font-weight-bold">First Name</div>
+                <div class="col-md-10">{{ user.firstname }}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 text-right font-weight-bold">Last Name</div>
+                <div class="col-md-10">{{ user.lastname }}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 text-right font-weight-bold">Email</div>
+                <div class="col-md-10">{{ user.email }}</div>
+            </div>
 
-    <table>
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ user.id }}</td>
-            </tr>
-            <tr>
-                <th>Username</th>
-                <td>{{ user.username }}</td>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td>{{ user.password }}</td>
-            </tr>
-            <tr>
-                <th>Firstname</th>
-                <td>{{ user.firstname }}</td>
-            </tr>
-            <tr>
-                <th>Lastname</th>
-                <td>{{ user.lastname }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ user.email }}</td>
-            </tr>
-        </tbody>
-    </table>
+            <div class="row">
+                <div class="col-md-12">&nbsp;</div>
+            </div>
 
-    <ul>
-        <li>
-            <a href="{{ path('users_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('users_edit', { 'id': user.id }) }}">Edit</a>
-        </li>
-        <li>
-            <a href="{{ path('user_group_assign', { 'id': user.id }) }}">Assign to group(s)</a>
-        </li>
-        <li>
-            <a href="{{ path('user_group_unassign', { 'id': user.id }) }}">Unassign from group(s)</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+            <div class="row">
+                <ul>
+                    <li>
+                        <a href="{{ path('users_index') }}">Back to the list</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('users_edit', { 'id': user.id }) }}">Edit</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('user_group_assign', { 'id': user.id }) }}">Assign to group(s)</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('user_group_unassign', { 'id': user.id }) }}">Unassign from group(s)</a>
+                    </li>
+                    <li>
+                        {{ form_start(delete_form) }}
+                            <input type="submit" value="Delete">
+                        {{ form_end(delete_form) }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
 {% endblock %}

@@ -1,47 +1,55 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Groups list</h1>
+    <div class="main">
+        <div class="container">
+            <div class="page-header">
+                <h1>Groups list</h1>
+            </div>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for group in groups %}
-            <tr>
-                <td><a href="{{ path('groups_show', { 'id': group.id }) }}">{{ group.id }}</a></td>
-                <td>{{ group.id }}</td>
-                <td>{{ group.name }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('groups_show', { 'id': group.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('groups_edit', { 'id': group.id }) }}">edit</a>
-                        </li>
-                        {% if usersGroups[group.id] is not defined %}
-                        <li>
-                            <a href="{{ path('groups_delete', { 'id': group.id }) }}">delete</a>
-                        </li>
-                        {% endif %}
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+		    <table class="table">
+		        <thead>
+		            <tr>
+		                <th>Id</th>
+		                <th>Name</th>
+		                <th>Action</th>
+		            </tr>
+		        </thead>
+		        <tbody>
+		        {% for group in groups %}
+		            <tr>
+		                <td><a href="{{ path('groups_show', { 'id': group.id }) }}">{{ group.id }}</a></td>
+		                <td>{{ group.name }}</td>
+		                <td>
+		                    <ul class="list-inline">
+		                        <li class="list-inline-item">
+		                            <a href="{{ path('groups_show', { 'id': group.id }) }}">show</a>
+		                        </li>
+		                        <li class="list-inline-item">
+		                            <a href="{{ path('groups_edit', { 'id': group.id }) }}">edit</a>
+		                        </li>
+		                        {% if group.id not in usersGroups %}
+		                        <li class="list-inline-item">
+		                            <a href="{{ path('groups_delete', { 'id': group.id }) }}">delete</a>
+		                        </li>
+		                        {% endif %}
+		                    </ul>
+		                </td>
+		            </tr>
+		        {% endfor %}
+		        </tbody>
+		    </table>
 
-    <ul>
-        <li>
-            <a href="{{ path('groups_new') }}">Create a new Group</a>
-        </li>
-        <li>
-            <a href="{{ path('user_group_homepage') }}">Back to top</a>
-        </li>
-    </ul>
+		    <div class="row">
+			    <ul>
+			        <li>
+			            <a href="{{ path('groups_new') }}">Create Group</a>
+			        </li>
+			        <li>
+			            <a href="{{ path('user_group_homepage') }}">Back to top</a>
+			        </li>
+			    </ul>
+			</div>
+		</div>
+	</div>
 {% endblock %}

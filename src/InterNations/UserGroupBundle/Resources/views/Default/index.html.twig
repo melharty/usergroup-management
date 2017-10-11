@@ -1,15 +1,28 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>User Group Manager</h1>
+    <div class="main">
+        <div class="container">
+            <div class="page-header">
+                <h1>User Group Manager</h1>
+                <hr>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <ul>
+                        <li>
+                            <a href="{{ path('users_index') }}">User Manager</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('groups_index') }}">Group Manager</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
-    <ul>
-        <li>
-            <a href="{{ path('users_index') }}">User Manager</a>
-        </li>
-        <li>
-            <a href="{{ path('groups_index') }}">Group Manager</a>
-        </li>
-    </ul>
+
+    
 {% endblock %}

@@ -1,21 +1,59 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>User edit</h1>
+    <div class="main">
+        <div class="container">
+            <div class="page-header">
+                <h1>Edit User</h1>
+                <hr>
+            </div>
+            {{ form_start(edit_form) }}
+            <div class="row form-group">
+                <div class="col-md-3 text-right font-weight-bold">{{ form_label(edit_form.username) }}</div>
+                <div class="col-md-6">{{ form_widget(edit_form.username) }}</div>
+            </div>
 
-    {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
-        <input type="submit" value="Save" />
-    {{ form_end(edit_form) }}
+            <div class="row form-group">
+                <div class="col-md-3 text-right font-weight-bold">{{ form_label(edit_form.password) }}</div>
+                <div class="col-md-6">{{ form_widget(edit_form.password, {'attr':{'type': 'password','data-error': 'You must enter a minimum of 6 characters', 'placeholder': 'Min 6 characters', 'data-minlength':"6", 'required':'true'}} ) }}</div>
+            </div>
 
-    <ul>
-        <li>
-            <a href="{{ path('users_index') }}">Back to the list</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+            <div class="row form-group">
+                <div class="col-md-3 text-right font-weight-bold">{{ form_label(edit_form.firstname) }}</div>
+                <div class="col-md-6">{{ form_widget(edit_form.firstname) }}</div>
+            </div>
+            
+            <div class="row form-group">
+                <div class="col-md-3 text-right font-weight-bold">{{ form_label(edit_form.lastname) }}</div>
+                <div class="col-md-6">{{ form_widget(edit_form.lastname) }}</div>
+            </div>
+            
+            <div class="row form-group">
+                <div class="col-md-3 text-right font-weight-bold">{{ form_label(edit_form.email) }}</div>
+                <div class="col-md-6">{{ form_widget(edit_form.email) }}</div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-md-3 text-right font-weight-bold"></div>
+                <div class="col-md-6 align-right text-right"><input type="submit" value="Save" /></div>
+            </div>
+            
+            {{ form_end(edit_form) }}
+
+            <div class="row form-group">
+                <ul>
+                    <li>
+                        <a href="{{ path('users_index') }}">Back to the list</a>
+                    </li>
+                    <li>
+                        {{ form_start(delete_form) }}
+                            <input type="submit" value="Delete">
+                        {{ form_end(delete_form) }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    
 {% endblock %}
