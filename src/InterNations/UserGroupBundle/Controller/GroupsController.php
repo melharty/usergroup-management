@@ -25,8 +25,21 @@ class GroupsController extends Controller
 
         $groups = $em->getRepository('UserGroupBundle:Groups')->findAll();
 
+        // Fetch list of group Ids
+        $groupIds = array_map(create_function('$fetchGroupIdsFromResult', 'return $fetchGroupIdsFromResult->getId();'), $groups);
+
+        $usersGroupsQuery = $em->createQuery(
+            'SELECT DISTINCT q.groupid from UserGroupBundle:UsersGroups q
+             WHERE q.groupid IN (:groupids)'
+        )->setParameter('groupids', $groupIds);
+
+        $usersGroups = $usersGroupsQuery->getResult();
+
+        $usersGroups = array_map(create_function('$fetchGroupIdsFromResult', 'return $fetchGroupIdsFromResult["groupid"];'), $usersGroups);
+
         return $this->render('@UserGroup/Groups/index.html.twig', array(
             'groups' => $groups,
+            'usersGroups' => $usersGroups
         ));
     }
 

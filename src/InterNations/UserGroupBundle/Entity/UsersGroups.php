@@ -35,7 +35,7 @@ class UsersGroups
      *
      * @return Users
      */
-    public function setUserId(\InterNations\UserGroupBundle\Entity\Users $userId)
+    public function setUserId($userId)
     {
         $this->userid = $userId;
 
@@ -59,7 +59,7 @@ class UsersGroups
      *
      * @return Groups
      */
-    public function setGroupId(\InterNations\UserGroupBundle\Entity\Groups $groupId)
+    public function setGroupId($groupId)
     {
         $this->groupid = $groupId;
 

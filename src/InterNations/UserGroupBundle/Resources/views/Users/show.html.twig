@@ -43,6 +43,9 @@
             <a href="{{ path('user_group_assign', { 'id': user.id }) }}">Assign to group(s)</a>
         </li>
         <li>
+            <a href="{{ path('user_group_unassign', { 'id': user.id }) }}">Unassign from group(s)</a>
+        </li>
+        <li>
             {{ form_start(delete_form) }}
                 <input type="submit" value="Delete">
             {{ form_end(delete_form) }}

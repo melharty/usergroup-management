@@ -24,9 +24,11 @@
                         <li>
                             <a href="{{ path('groups_edit', { 'id': group.id }) }}">edit</a>
                         </li>
+                        {% if usersGroups[group.id] is not defined %}
                         <li>
                             <a href="{{ path('groups_delete', { 'id': group.id }) }}">delete</a>
                         </li>
+                        {% endif %}
                     </ul>
                 </td>
             </tr>

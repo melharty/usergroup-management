@@ -27,3 +27,8 @@ user_group_assign:
     path:     /{id}/assign
     defaults: { _controller: "UserGroupBundle:Users:assign" }
     methods:  [GET, POST]
+
+user_group_unassign:
+    path:     /{id}/unassign
+    defaults: { _controller: "UserGroupBundle:Users:unassign" }
+    methods:  [GET, POST]

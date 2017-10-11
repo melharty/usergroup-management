@@ -9,6 +9,7 @@ use InterNations\UserGroupBundle\Entity\Roles;
 use InterNations\UserGroupBundle\Entity\UsersRoles;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use \Doctrine\Common\Collections\Criteria;
 
 /**
  * User controller.
@@ -125,66 +126,99 @@ class UsersController extends Controller
     }
 
     /**
-     * Assign User to Group.
+     * Assign User to Group(s).
      *
      */
     public function assignAction(Request $request, Users $user)
     {
+        // Initialize the Entity Manager
         $em = $this->getDoctrine()->getManager();
+
+        // Fetch the User Id from the URL
         $id = $user->getId();
 
-        $entity = $em
-            ->getRepository('UserGroupBundle:UsersGroups')
-            ->createQueryBuilder('e')
-            ->join('e.groupid', 'r')
-            ->where('e.userid = :id')
-            ->getQuery()
-            ->setParameter('id', $id)
-            ->getResult();
-
-        var_dump($entity);exit;
-
-        $query = $em
-            ->createQuery(
-            'SELECT p, c FROM UserGroupBundle:UsersGroups p
-            JOIN p.groupid c
-            WHERE p.id = :id'
+        // Fetch all groups the user does not belong to
+        $groupsQuery = $em->createQuery(
+            'SELECT q from UserGroupBundle:Groups q
+             WHERE q.id NOT IN (
+                SELECT qu.groupid from UserGroupBundle:UsersGroups qu
+                WHERE qu.userid = :id
+            )'
         )->setParameter('id', $id);
 
-        $groups = $query->getResult();
+        $groups = $groupsQuery->getResult();
 
-        var_dump($groups);exit;
+        // Process request params if exists
+        $params = $request->request->get('internations_usergroupbundle_users');
 
+        if ($params !== NULL && array_key_exists("usergroups", $params)) {
+            // Process group assignment data from POST
+            
+            
+            // Insert into DB
+            foreach ($params['usergroups'] as $assignmentGroup) {
+                $usersGroups = new UsersGroups();
+                $usersGroups->setUserId($id);
+                $usersGroups->setGroupId($assignmentGroup);
+                $em->persist($usersGroups);
+            }
 
-        $groupsRepository = $this->getDoctrine()->getRepository(UsersGroups::class);
-        $groups = $groupsRepository->findBy(
-            array('userid', $id)
-        );
-        
-        var_dump($groups);exit;
-        
+            $em->flush();
 
-
-
-
-
-
-
-        var_dump($request);exit;
-        $assignForm = $this->createForm('InterNations\UserGroupBundle\Form\UsersType', $user);
-        $assignForm->handleRequest($request);
-
-        
-
-        if ($assignForm->isSubmitted() && $assignForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('users_show', array('id' => $user->getId()));
+            return $this->redirectToRoute('users_show', array('id' => $id));
         }
 
         return $this->render('@UserGroup/Users/userassign.html.twig', array(
             'user' => $user,
-            'edit_form' => $assignForm->createView(),
+            'groups' => $groups
+        ));
+    }
+
+    /**
+     * Unassign User from Group(s).
+     *
+     */
+    public function unassignAction(Request $request, Users $user)
+    {
+        // Initialize the Entity Manager
+        $em = $this->getDoctrine()->getManager();
+
+        // Fetch the User Id from the URL
+        $id = $user->getId();
+
+        // Fetch all groups the user does not belong to
+        $groupsQuery = $em->createQuery(
+            'SELECT q FROM UserGroupBundle:Groups q
+             WHERE q.id IN (
+                SELECT qu.groupid FROM UserGroupBundle:UsersGroups qu
+                WHERE qu.userid = :id
+            )'
+        )->setParameter('id', $id);
+
+        $groups = $groupsQuery->getResult();
+
+        // Process request params if exists
+        $params = $request->request->get('internations_usergroupbundle_users');
+
+        if ($params !== NULL && array_key_exists("usergroups", $params)) {
+            // Delete records from DB
+            foreach ($params['usergroups'] as $assignmentGroup) {
+                $unassignQuery = $em->createQuery(
+                    'DELETE FROM UserGroupBundle:usersGroups q
+                    WHERE q.userid = :userid AND q.groupid = :groupid'
+                )->setParameter("userid", $id)->setParameter("groupid", $assignmentGroup);
+
+                $unassigned = $unassignQuery->getResult();
+            }
+
+            $em->flush();
+
+            return $this->redirectToRoute('users_show', array('id' => $id));
+        }
+
+        return $this->render('@UserGroup/Users/userassign.html.twig', array(
+            'user' => $user,
+            'groups' => $groups
         ));
     }
 }
