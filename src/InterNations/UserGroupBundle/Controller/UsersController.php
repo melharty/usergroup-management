@@ -18,14 +18,17 @@ class UsersController extends Controller
 {
     /**
      * Lists all user entities.
-     *
+     * @return List view for entity Users
      */
     public function indexAction()
     {
+        // Create an object of Doctrine Entity Manager
         $em = $this->getDoctrine()->getManager();
 
+        // Retrieve list of all users in the database
         $users = $em->getRepository('UserGroupBundle:Users')->findAll();
 
+        // Return InterNations\UserGroupBundle\Form\UsersType to Twig
         return $this->render('@UserGroup/Users/index.html.twig', array(
             'users' => $users,
         ));
@@ -33,43 +36,46 @@ class UsersController extends Controller
 
     /**
      * Creates a new user entity.
-     *
+     * @return Form view for entity Users
      */
     public function newAction(Request $request)
     {
+        // Create a new object of Users entity
         $user = new Users();
+
+        // Create a new form from UsersType
         $form = $this->createForm('InterNations\UserGroupBundle\Form\UsersType', $user);
+
+        // Map data from POST request to Users object
         $form->handleRequest($request);
 
+        // Process data
         if ($form->isSubmitted() && $form->isValid()) {
+            // Create an object of Doctrine Entity Manager
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
 
+            // Redirect the viewer to the newly created User
             return $this->redirectToRoute('users_show', array('id' => $user->getId()));
         }
 
+        // Return InterNations\UserGroupBundle\Form\UsersType to Twig
         return $this->render('@UserGroup/Users/new.html.twig', array(
             'user' => $user,
             'form' => $form->createView(),
         ));
     }
 
-
-    /**
-     * Retrieve user entity.
-     *
-     */
-    // protected function fetchUser(Users $user) {
-    	
-    // }
-
     /**
      * Finds and displays a user entity.
-     *
+     * @param InterNations\UserGroupBundle\Entity\Users $user
+     * @return array of InterNations\UserGroupBundle\Form\UsersType
      */
     public function showAction(Users $user)
     {
+        // Create form for Delete button to allow
+        // the user to delete the record
         $deleteForm = $this->createDeleteForm($user);
 
         return $this->render('@UserGroup/Users/show.html.twig', array(
@@ -80,11 +86,13 @@ class UsersController extends Controller
 
     /**
      * Displays a form to edit an existing user entity.
-     *
+     * @param Symfony\Component\HttpFoundation $request
+     * @param int $id
+     * @return array of InterNations\UserGroupBundle\Form\UsersType
      */
     public function editAction(Request $request, int $id)
     {
-    	$user = $this->getDoctrine()->getRepository('UserGroupBundle:Users')->find($id);
+        $user = $this->getDoctrine()->getRepository('UserGroupBundle:Users')->find($id);
 
         $deleteForm = $this->createDeleteForm($user);
         $editForm = $this->createForm('InterNations\UserGroupBundle\Form\UsersType', $user);
@@ -92,11 +100,11 @@ class UsersController extends Controller
         $params = $request->request->get('internations_usergroupbundle_users');
 
         if ($params !== null) {
-        	if ($params['password'] != '') $user->setPassword(md5($params['password']));
-        	$user->setFirstname($params['firstname']);
-        	$user->setLastname($params['lastname']);
-        	$user->setEmail($params['email']);
-        	
+            if ($params['password'] != '') $user->setPassword(md5($params['password']));
+            $user->setFirstname($params['firstname']);
+            $user->setLastname($params['lastname']);
+            $user->setEmail($params['email']);
+            
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('users_index', array('id' => $user->getId()));
@@ -111,13 +119,16 @@ class UsersController extends Controller
 
     /**
      * Deletes a user entity.
-     *
+     * @param Symfony\Component\HttpFoundation $request
+     * @param InterNations\UserGroupBundle\Entity\Users $user
+     * @return redirect to route users_index
      */
     public function deleteAction(Request $request, Users $user)
     {
         $form = $this->createDeleteForm($user);
         $form->handleRequest($request);
 
+        // Create an object of Doctrine Entity Manager
         $em = $this->getDoctrine()->getManager();
         $em->remove($user);
         $em->flush();
@@ -143,17 +154,19 @@ class UsersController extends Controller
 
     /**
      * Assign User to Group(s).
-     *
+     * @param Symfony\Component\HttpFoundation $request
+     * @param InterNations\UserGroupBundle\Entity\Users $user
+     * @return Redirect if successful or stay on the same form if failed
      */
     public function assignAction(Request $request, Users $user)
     {
-        // Initialize the Entity Manager
+        // Create an object of Doctrine Entity Manager
         $em = $this->getDoctrine()->getManager();
 
-        // Fetch the User Id from the URL
+        // Fetch the User Id from the Users object
         $id = $user->getId();
 
-        // Fetch all groups the user does not belong to
+        // Fetch list of unassigned groups for this user
         $groupsQuery = $em->createQuery(
             'SELECT q from UserGroupBundle:Groups q
              WHERE q.id NOT IN (
@@ -189,17 +202,19 @@ class UsersController extends Controller
 
     /**
      * Unassign User from Group(s).
-     *
+     * @param Symfony\Component\HttpFoundation $request
+     * @param InterNations\UserGroupBundle\Entity\Users $user
+     * @return Redirect if successful or stay on the same form if failed
      */
     public function unassignAction(Request $request, Users $user)
     {
-        // Initialize the Entity Manager
+        // Create an object of Doctrine Entity Manager
         $em = $this->getDoctrine()->getManager();
 
         // Fetch the User Id from the URL
         $id = $user->getId();
 
-        // Fetch all groups the user does not belong to
+        // Fetch all groups the user is assigned to
         $groupsQuery = $em->createQuery(
             'SELECT q FROM UserGroupBundle:Groups q
              WHERE q.id IN (

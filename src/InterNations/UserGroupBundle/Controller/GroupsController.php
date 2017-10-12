@@ -17,7 +17,7 @@ class GroupsController extends Controller
 {
     /**
      * Lists all group entities.
-     *
+     * @return List view for entity Groups
      */
     public function indexAction()
     {
@@ -45,7 +45,7 @@ class GroupsController extends Controller
 
     /**
      * Creates a new group entity.
-     *
+     * @return Form view for entity Groups
      */
     public function newAction(Request $request)
     {
@@ -69,7 +69,8 @@ class GroupsController extends Controller
 
     /**
      * Finds and displays a group entity.
-     *
+     * @param InterNations\UserGroupBundle\Entity\Groups $group
+     * @return array of InterNations\UserGroupBundle\Form\GroupsType
      */
     public function showAction(Groups $group)
     {
@@ -83,7 +84,9 @@ class GroupsController extends Controller
 
     /**
      * Displays a form to edit an existing group entity.
-     *
+     * @param Symfony\Component\HttpFoundation $request
+     * @param int $id
+     * @return array of InterNations\UserGroupBundle\Form\GroupsType
      */
     public function editAction(Request $request, Groups $group)
     {
@@ -126,7 +129,9 @@ class GroupsController extends Controller
 
     /**
      * Deletes a group entity.
-     *
+     * @param Symfony\Component\HttpFoundation $request
+     * @param InterNations\UserGroupBundle\Entity\Groups $groups
+     * @return redirect to route groups_index
      */
     public function deleteAction(Request $request, Groups $group)
     {

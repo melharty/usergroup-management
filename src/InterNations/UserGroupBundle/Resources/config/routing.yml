@@ -2,18 +2,9 @@ users:
     resource: "@UserGroupBundle/Resources/config/routing/users.yml"
     prefix:   /users
 
-# users_api:
-#     resource: "@UserGroupBundle/Resources/config/routing/users_api.yml"
-#     prefix: /api/users/
-
 groups:
     resource: "@UserGroupBundle/Resources/config/routing/groups.yml"
     prefix:   /groups
-
-# groups_api:
-#     resource: "@UserGroupBundle/Resources/config/routing/groups_api.yml"
-#     prefix: /api/groups/
-
 
 user_group_homepage:
     path:     /
