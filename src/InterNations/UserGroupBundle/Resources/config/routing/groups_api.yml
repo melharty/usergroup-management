@@ -11,12 +11,12 @@ groups_api_show:
 groups_api_new:
     path:     /new
     defaults: { _controller: "UserGroupBundle:GroupsApi:new" }
-    methods:  [GET, POST]
+    methods:  [PUT]
 
 groups_api_edit:
     path:     /{id}/edit
     defaults: { _controller: "UserGroupBundle:GroupsApi:edit" }
-    methods:  [GET, POST]
+    methods:  [POST]
 
 groups_api_delete:
     path:     /{id}/delete
