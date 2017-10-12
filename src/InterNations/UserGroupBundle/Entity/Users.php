@@ -37,7 +37,7 @@ class Users implements UserInterface
      */
     public function eraseCredentials()
     {
-    	$this->setPassword('');
+    	// $this->setPassword('');
     }
 
     /**
@@ -116,7 +116,7 @@ class Users implements UserInterface
      */
     public function setPassword($password)
     {
-        $this->password = $password;
+        if ($password != null && $password != '') $this->password = $password;
 
         return $this;
     }
