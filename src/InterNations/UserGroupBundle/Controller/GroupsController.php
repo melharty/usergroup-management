@@ -117,8 +117,6 @@ class GroupsController extends Controller
             'edit_form' => $editForm->createView()
         );
 
-        // var_dump(count($groups));exit;
-
         if (count($groups) === 0) {
         	$returnArray['delete_form'] = $deleteForm->createView();
         }
@@ -153,7 +151,6 @@ class GroupsController extends Controller
         	// Raise error to the form
         	throw $this->createAccessDeniedException('You cannot access this page!');
         } else {
-        	$em = $this->getDoctrine()->getManager();
 	        $em->remove($group);
 	        $em->flush();
         }

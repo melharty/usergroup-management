@@ -59,10 +59,29 @@ class GroupsApiController extends FOSRestController
     public function deleteAction(Groups $group, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $em->remove($group);
-        $em->flush();
 
-        $view = $this->routeRedirectView('groups_api_index', array(), 301);
+        // Fetch Group Id to prevent deletion if any users are assigned
+        $id = $group->getId();
+
+        // Lookup the UsersGroups table for any existing users
+        $groupsQuery = $em->createQuery(
+            'SELECT q.userid FROM UserGroupBundle:UsersGroups q
+             WHERE q.groupid = :id
+            '
+        )->setParameter('id', $id);
+
+        $groups = $groupsQuery->getResult();
+
+        if (count($groups) > 0) {
+        	// Raise error to the form
+        	$view = $this->view('Cannot delete group with existing members', 403);
+        } else {
+        	$em->remove($group);
+        	$em->flush();
+
+        	$view = $this->routeRedirectView('groups_api_index', array(), 301);
+        }
+
         return $view;
     }
 

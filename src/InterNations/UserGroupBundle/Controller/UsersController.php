@@ -82,14 +82,20 @@ class UsersController extends Controller
      * Displays a form to edit an existing user entity.
      *
      */
-    public function editAction(Request $request, Users $user)
+    public function editAction(Request $request, int $id)
     {
+    	$user = $this->getDoctrine()->getRepository('UserGroupBundle:Users')->find($id);
+
         $deleteForm = $this->createDeleteForm($user);
         $editForm = $this->createForm('InterNations\UserGroupBundle\Form\UsersType', $user);
-        $editForm->handleRequest($request);
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-        	$user->setPassword(md5($user->getPassword()));
+        $params = $request->request->get('internations_usergroupbundle_users');
+
+        if ($params !== null) {
+        	if ($params['password'] != '') $user->setPassword(md5($params['password']));
+        	$user->setFirstname($params['firstname']);
+        	$user->setLastname($params['lastname']);
+        	$user->setEmail($params['email']);
         	
             $this->getDoctrine()->getManager()->flush();
 

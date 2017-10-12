@@ -28,6 +28,7 @@ InterNations\UserGroupBundle\Entity\Users:
             length: 100
             options:
                 fixed: false
+            column: password
         firstname:
             type: string
             nullable: false
