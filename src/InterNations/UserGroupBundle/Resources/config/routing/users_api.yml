@@ -21,7 +21,7 @@ users_api_edit:
 users_api_delete:
     path:     /{id}/delete
     defaults: { _controller: "UserGroupBundle:UsersApi:delete" }
-    methods:  [GET, DELETE]
+    methods:  [DELETE]
 
 user_group_api_assign:
     path:     /{id}/assign
