@@ -30,6 +30,13 @@ security:
     #         # https://symfony.com/doc/current/security/form_login_setup.html
     #         #form_login: ~
     firewalls:
+        api:         
+            pattern: ^/api
+            anonymous: ~
+            form_login: false            
+            provider: our_db_provider
+            http_basic:
+                realm: "REST Service Realm"
         secured_area:
             pattern: ^/
             anonymous: true
@@ -54,4 +61,5 @@ security:
             # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
     access_control:
         - { path: '^/admin', roles: ROLE_USER }
+        - { path: '^/api', roles: ROLE_API }
 
