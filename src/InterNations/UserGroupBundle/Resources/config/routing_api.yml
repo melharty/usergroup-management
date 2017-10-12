@@ -1,0 +1,7 @@
+users_api:
+    resource: "@UserGroupBundle/Resources/config/routing/users_api.yml"
+    prefix: /users/
+
+groups_api:
+    resource: "@UserGroupBundle/Resources/config/routing/groups_api.yml"
+    prefix:  /groups/

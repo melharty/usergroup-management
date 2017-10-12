@@ -1,0 +1,34 @@
+users_api_index:
+    path:     /
+    defaults: { _controller: "UserGroupBundle:UsersApi:index" }
+    methods:  GET
+
+users_api_show:
+    path:     /{id}/show
+    defaults: { _controller: "UserGroupBundle:UsersApi:show" }
+    methods:  GET
+
+users_api_new:
+    path:     /new
+    defaults: { _controller: "UserGroupBundle:UsersApi:new" }
+    methods:  [PUT]
+
+users_api_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "UserGroupBundle:UsersApi:edit" }
+    methods:  [POST]
+
+users_api_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "UserGroupBundle:UsersApi:delete" }
+    methods:  [GET,DELETE]
+
+user_group_api_assign:
+    path:     /{id}/assign
+    defaults: { _controller: "UserGroupBundle:UsersApi:assign" }
+    methods:  [POST]
+
+user_group_api_unassign:
+    path:     /{id}/unassign
+    defaults: { _controller: "UserGroupBundle:UsersApi:unassign" }
+    methods:  [GET, POST]

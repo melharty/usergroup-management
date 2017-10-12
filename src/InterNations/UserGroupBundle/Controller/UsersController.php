@@ -9,7 +9,6 @@ use InterNations\UserGroupBundle\Entity\Roles;
 use InterNations\UserGroupBundle\Entity\UsersRoles;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use \Doctrine\Common\Collections\Criteria;
 
 /**
  * User controller.
@@ -55,6 +54,15 @@ class UsersController extends Controller
             'form' => $form->createView(),
         ));
     }
+
+
+    /**
+     * Retrieve user entity.
+     *
+     */
+    // protected function fetchUser(Users $user) {
+    	
+    // }
 
     /**
      * Finds and displays a user entity.
@@ -155,9 +163,6 @@ class UsersController extends Controller
 
         if ($params !== NULL && array_key_exists("usergroups", $params)) {
             // Process group assignment data from POST
-            
-            
-            // Insert into DB
             foreach ($params['usergroups'] as $assignmentGroup) {
                 $usersGroups = new UsersGroups();
                 $usersGroups->setUserId($id);

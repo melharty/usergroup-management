@@ -2,6 +2,10 @@ user_group:
     resource: "@UserGroupBundle/Resources/config/routing.yml"
     prefix:   /admin
 
+user_group_api:
+    resource: "@UserGroupBundle/Resources/config/routing_api.yml"
+    prefix:   /api/admin
+
 app:
     resource: '@AppBundle/Controller/'
     type: annotation
